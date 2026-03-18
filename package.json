@@ -1,5 +1,6 @@
 {
   "name": "cse340-woodtrack",
+  "type": "module",
   "version": "1.0.0",
   "description": "Student: Esteban Sarmiento\r Course: CSE 340",
   "main": "index.js",
