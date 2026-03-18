@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/estebansar/ces340-woodtrack/issues"
   },
-  "homepage": "https://github.com/estebansar/ces340-woodtrack#readme"
+  "homepage": "https://github.com/estebansar/ces340-woodtrack#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "ejs": "^5.0.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "pg": "^8.20.0"
+  }
 }
