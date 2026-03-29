@@ -1,4 +1,5 @@
 import express from "express";
+import staticRoutes from "./routes/static.js";
 
 const app = express();
 
@@ -10,10 +11,8 @@ app.set("view engine", "ejs");
 /* Setup: static files (CSS, images, etc.) */
 app.use(express.static("public"));
 
-/* Route: Home page */
-app.get("/", (req, res) => {
-  res.render("index", { title: "Home" }); 
-});
+/* Routes */
+app.use("/", staticRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
