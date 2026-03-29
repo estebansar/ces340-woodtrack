@@ -3,17 +3,17 @@ export function buildHome(req, res) {
 }
 
 export function buildProjects(req, res) {
-  res.send("Projects page coming soon");
+  res.render("projects", { title: "Projects" });
 }
 
 export function buildRequests(req, res) {
-  res.send("Requests page coming soon");
+  res.render("requests", { title: "Requests" });
 }
 
 export function buildLogin(req, res) {
-  res.send("Login page coming soon");
+  res.render("login", { title: "Login" });
 }
 
 export function buildRegister(req, res) {
-  res.send("Register page coming soon");
+  res.render("register", { title: "Register" });
 }
