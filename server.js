@@ -1,5 +1,7 @@
+import "dotenv/config";
 import express from "express";
 import staticRoutes from "./routes/static.js";
+import db from "./models/db.js";
 
 const app = express();
 
@@ -13,6 +15,16 @@ app.use(express.static("public"));
 
 /* Setup: form data */
 app.use(express.urlencoded({ extended: true }));
+
+/* Test DB connection */
+(async () => {
+  try {
+    const result = await db.query("SELECT NOW()");
+    console.log("Database connected:", result.rows[0]);
+  } catch (error) {
+    console.error("Database error:", error.message);
+  }
+})();
 
 /* Routes */
 app.use("/", staticRoutes);
