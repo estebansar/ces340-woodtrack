@@ -17,3 +17,15 @@ export function buildLogin(req, res) {
 export function buildRegister(req, res) {
   res.render("register", { title: "Register" });
 }
+
+/* Form action: login */
+export function loginAccount(req, res) {
+  const { email } = req.body;
+  res.send(`Login submitted for: ${email}`);
+}
+
+/* Form action: register */
+export function registerAccount(req, res) {
+  const { name, email } = req.body;
+  res.send(`Account submitted for: ${name} (${email})`);
+}

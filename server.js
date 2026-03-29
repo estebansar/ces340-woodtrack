@@ -11,6 +11,9 @@ app.set("view engine", "ejs");
 /* Setup: static files (CSS, images, etc.) */
 app.use(express.static("public"));
 
+/* Setup: form data */
+app.use(express.urlencoded({ extended: true }));
+
 /* Routes */
 app.use("/", staticRoutes);
 
