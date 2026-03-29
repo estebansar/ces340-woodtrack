@@ -1,12 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
-</head>
-<body>
+<%- include("partials/header", { title: "Home" }) %>
+
+<section class="hero">
   <h1>Welcome to WoodTrack</h1>
-  <p>This is my final project for CSE 340.</p>
-</body>
-</html>
+
+  <p>
+    A simple app to share woodworking projects and track custom builds.
+  </p>
+
+  <p>
+    test 1
+  </p>
+
+  <a href="/projects">View Projects</a>
+</section>
+
+<%- include("partials/footer") %>

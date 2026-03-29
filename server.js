@@ -4,8 +4,15 @@ const app = express();
 
 const PORT = 3000;
 
+/* Setup: view engine */
+app.set("view engine", "ejs");
+
+/* Setup: static files (CSS, images, etc.) */
+app.use(express.static("public"));
+
+/* Route: Home page */
 app.get("/", (req, res) => {
-  res.send("WoodTrack server is running");
+  res.render("index", { title: "Home" }); 
 });
 
 app.listen(PORT, () => {
