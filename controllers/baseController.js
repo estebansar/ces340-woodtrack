@@ -1,3 +1,7 @@
+import bcrypt from "bcrypt";
+import { createUser } from "../models/accountModel.js";
+
+
 export function buildHome(req, res) {
   res.render("index", { title: "Home" });
 }
@@ -25,7 +29,15 @@ export function loginAccount(req, res) {
 }
 
 /* Form action: register */
-export function registerAccount(req, res) {
-  const { name, email } = req.body;
-  res.send(`Account submitted for: ${name} (${email})`);
+export async function registerAccount(req, res) {
+    try {
+      const { name, email, password } = req.body;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = await createUser(name, email, hashedPassword);
+
+      res.send(`Account created for ${newUser.name} with email ${newUser.email}`);
+    } catch (error) {
+      console.error("Register error:", error.message);
+      res.status(500).send("Sorry, registration failed.");
+  }
 }
