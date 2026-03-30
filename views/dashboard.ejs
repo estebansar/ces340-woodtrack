@@ -1,0 +1,12 @@
+<%- include("partials/header", { title: "Dashboard" }) %>
+
+<section class="hero">
+  <h1>Dashboard</h1>
+
+  <p>Welcome, <%= user.name %>.</p>
+  <p>Your email: <%= user.email %></p>
+
+  <p>You are logged in with a session.</p>
+</section>
+
+<%- include("partials/footer") %>

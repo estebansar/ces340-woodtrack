@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node server.js",
     "db:schema": "node database/run-schema.js",
+    "db:add-role": "node database/add-user-role.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

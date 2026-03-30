@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { createUser } from "../models/accountModel.js";
+import { createUser, getUserByEmail } from "../models/accountModel.js";
 
 
 export function buildHome(req, res) {
@@ -22,22 +22,55 @@ export function buildRegister(req, res) {
   res.render("register", { title: "Register" });
 }
 
+export function buildDashboard(req, res) {
+  res.render("dashboard", {
+    title: "Dashboard",
+    user: req.session.user,
+  });
+}
+
 /* Form action: login */
-export function loginAccount(req, res) {
-  const { email } = req.body;
-  res.send(`Login submitted for: ${email}`);
+export async function loginAccount(req, res) {
+  try {
+    const { email, password } = req.body;
+    const account = await getUserByEmail(email);
+
+    if (!account) {
+      return res.status(400).send("Invalid login.");
+    }
+
+    const passwordMatch = await bcrypt.compare(password, account.password);
+
+    if (!passwordMatch) {
+      return res.status(400).send("Invalid login.");
+    }
+
+    console.log("Session before save:", req.session);
+
+    req.session.user = {
+      id: account.id,
+      name: account.name,
+      email: account.email,
+    };
+
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Login error:", error.message);
+    res.status(500).send("Sorry, login failed.");
+  }
 }
 
 /* Form action: register */
 export async function registerAccount(req, res) {
-    try {
-      const { name, email, password } = req.body;
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = await createUser(name, email, hashedPassword);
+  try {
+    const { name, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await createUser(name, email, hashedPassword);
 
-      res.send(`Account created for ${newUser.name} with email ${newUser.email}`);
-    } catch (error) {
-      console.error("Register error:", error.message);
-      res.status(500).send("Sorry, registration failed.");
+    res.send(`Account created for ${newUser.name} with email ${newUser.email}`);
+  } catch (error) {
+    console.error("Register error:", error.message);
+    res.status(500).send("Sorry, registration failed.");
   }
 }
+

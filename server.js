@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import session from "express-session";
 import staticRoutes from "./routes/static.js";
 import db from "./models/db.js";
 
@@ -15,6 +16,15 @@ app.use(express.static("public"));
 
 /* Setup: form data */
 app.use(express.urlencoded({ extended: true }));
+
+/* Setup: sessions */
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "woodtrack-secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 /* Test DB connection */
 (async () => {
