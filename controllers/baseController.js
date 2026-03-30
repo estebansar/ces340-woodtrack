@@ -51,6 +51,7 @@ export async function loginAccount(req, res) {
       id: account.id,
       name: account.name,
       email: account.email,
+      role: account.email,
     };
 
     res.redirect("/dashboard");
@@ -67,7 +68,7 @@ export async function registerAccount(req, res) {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await createUser(name, email, hashedPassword);
 
-    res.send(`Account created for ${newUser.name} with email ${newUser.email}`);
+    res.send(`Account created for ${newUser.name} with role ${newUser.email}`);
   } catch (error) {
     console.error("Register error:", error.message);
     res.status(500).send("Sorry, registration failed.");

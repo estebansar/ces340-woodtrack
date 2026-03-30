@@ -13,7 +13,7 @@ export async function createUser(name, email, password) {
 
 export async function getUserByEmail(email) {
   const sql = `
-    SELECT id, name, email, password, created_at
+    SELECT id, name, email, password, role, created_at
     FROM users
     WHERE email = $1
   `;
