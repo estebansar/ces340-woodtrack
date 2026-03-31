@@ -6,3 +6,12 @@ CREATE TABLE IF NOT EXISTS users (
   role VARCHAR(20) NOT NULL DEFAULT 'client',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS requests (
+  request_id SERIAL PRIMARY KEY,
+  request_title VARCHAR(100) NOT NULL,
+  request_description TEXT NOT NULL,
+  request_status VARCHAR(30) NOT NULL DEFAULT 'submitted',
+  user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
