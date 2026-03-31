@@ -61,6 +61,13 @@ export async function loginAccount(req, res) {
   }
 }
 
+export function buildAdmin(req, res) {
+  res.render("admin", {
+    title: "Admin Dashboard",
+    user: req.session.user,
+  });
+}
+
 /* Form action: register */
 export async function registerAccount(req, res) {
   try {

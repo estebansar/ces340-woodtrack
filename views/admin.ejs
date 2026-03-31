@@ -1,0 +1,12 @@
+<%- include("partials/header", { title: "Admin Dashboard" }) %>
+
+<section class="hero">
+  <h1>Admin Dashboard</h1>
+
+  <p>Welcome, <%= user.name %>.</p>
+  <p>Your role: <%= user.role %></p>
+
+  <p>This page is restricted to admin users only.</p>
+</section>
+
+<%- include("partials/footer") %>
