@@ -51,7 +51,7 @@ export async function loginAccount(req, res) {
       id: account.id,
       name: account.name,
       email: account.email,
-      role: account.email,
+      role: account.role,
     };
 
     res.redirect("/dashboard");

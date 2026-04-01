@@ -11,12 +11,17 @@ import {
   registerAccount
 } from "../controllers/baseController.js";
 import { checkLogin, checkAdmin } from "../middleware/authMiddleware.js";
+import { submitRequest } from "../controllers/requestController.js"
+
 
 const router = express.Router();
 
 router.get("/", buildHome);
 router.get("/projects", buildProjects);
 router.get("/requests", buildRequests);
+
+router.post("/requests", checkLogin, submitRequest);
+
 router.get("/login", buildLogin);
 router.get("/register", buildRegister);
 router.get("/dashboard", checkLogin, buildDashboard);

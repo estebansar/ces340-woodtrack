@@ -1,15 +1,32 @@
 <%- include("partials/header", { title: "Requests" }) %>
 
 <section class="hero">
-  <h1>Custom Build Requests</h1>
+  <h1>Submit a Custom Build Request</h1>
 
-  <p>
-    This page will show custom build requests submitted by users.
-  </p>
+  <form action="/requests" method="post">
+    
+    <!-- TITLE -->
+    <label for="title">Project Title</label>
+    <input 
+      type="text" 
+      id="title" 
+      name="title" 
+      required
+    >
 
-  <p>
-    Later, this page will connect to the database and display real request records.
-  </p>
+    <!-- DESCRIPTION -->
+    <label for="description">Project Description</label>
+    <textarea 
+      id="description" 
+      name="description" 
+      rows="5" 
+      required
+    ></textarea>
+
+    <!-- SUBMIT BUTTON -->
+    <button type="submit">Submit Request</button>
+
+  </form>
 </section>
 
 <%- include("partials/footer") %>
