@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { createUser, getUserByEmail } from "../models/accountModel.js";
+import { getRequestsByUserId } from "../models/requestModel.js";
 
 
 export function buildHome(req, res) {
@@ -22,11 +23,20 @@ export function buildRegister(req, res) {
   res.render("register", { title: "Register" });
 }
 
-export function buildDashboard(req, res) {
-  res.render("dashboard", {
-    title: "Dashboard",
-    user: req.session.user,
-  });
+export async function buildDashboard(req, res) {
+  try {
+    const userId = req.session.user.id;
+    const requests = await getRequestsByUserId(userId);
+
+    res.render("dashboard", {
+      title: "Dashboard",
+      user: req.session.user,
+      requests,
+    });
+  } catch (error) {
+    console.error("Dashboard error:", error.message);
+    res.status(500).send("Sorry, dashboard failed to load.");
+  }
 }
 
 /* Form action: login */
