@@ -1,5 +1,9 @@
 import bcrypt from "bcrypt";
-import { createUser, getUserByEmail } from "../models/accountModel.js";
+import { createUser,
+  getUserByEmail,
+  getUserById,
+  updateUserAccount
+ } from "../models/accountModel.js";
 import { getRequestsByUserId, getAllRequests } from "../models/requestModel.js";
 
 
@@ -100,3 +104,51 @@ export async function registerAccount(req, res) {
   }
 }
 
+export function logoutAccount(req, res) {
+  req.session.destroy((error) => {
+    if (error) {
+      console.error("Logout error:", error.message);
+      return res.status(500).send("Sorry, logout failed.");
+    }
+
+    res.clearCookie("connect.sid");
+    res.redirect("/");
+  });
+}
+
+export async function buildEditAccount(req, res) {
+  try {
+    const userId = req.session.user.id;
+    const account = await getUserById(userId);
+
+    res.render("edit-account", {
+      title: "Edit Account",
+      user: req.session.user,
+      account
+    });
+  } catch (error) {
+    console.error("Edit account page error:", error.message);
+    res.status(500).send("Sorry, edit account page failed to load.");
+  }
+}
+
+export async function updateAccount(req, res) {
+  try {
+    const userId = req.session.user.id;
+    const { name, email } = req.body;
+
+    const updatedUser = await updateUserAccount(userId, name, email);
+
+    req.session.user = {
+      id: updatedUser.id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      role: updatedUser.role,
+    };
+
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Update account error:", error.message);
+    res.status(500).send("Sorry, account update failed.");
+  }
+}
