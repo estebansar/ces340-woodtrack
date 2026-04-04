@@ -1,4 +1,4 @@
-import { createRequest } from '../models/requestModel.js'
+import { createRequest, updateRequestStatus } from "../models/requestModel.js";
 
 // SHOW form
 export function showRequestForm(req, res) {
@@ -22,5 +22,18 @@ export async function submitRequest(req, res) {
   } catch (error) {
     console.error("submitRequest error:", error)
     res.status(500).send("Server Error")
+  }
+}
+
+export async function changeRequestStatus(req, res) {
+  try {
+    const { request_id, request_status } = req.body;
+
+    await updateRequestStatus(request_id, request_status);
+
+    res.redirect("/admin");
+  } catch (error) {
+    console.error("changeRequestStatus error:", error);
+    res.status(500).send("Server Error");
   }
 }

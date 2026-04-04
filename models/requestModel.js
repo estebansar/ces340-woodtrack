@@ -35,3 +35,46 @@ export async function getRequestsByUserId(user_id) {
     throw error
   }
 }
+
+// GET all requests for admin
+export async function getAllRequests() {
+  try {
+    const sql = `
+      SELECT
+        requests.request_id,
+        requests.request_title,
+        requests.request_description,
+        requests.request_status,
+        requests.created_at,
+        users.name AS user_name,
+        users.email AS user_email
+      FROM requests
+      JOIN users ON requests.user_id = users.id
+      ORDER BY requests.created_at DESC
+    `
+
+    const result = await db.query(sql)
+    return result.rows
+  } catch (error) {
+    console.error("getAllRequests error:", error)
+    throw error
+  }
+}
+
+// UPDATE request status (admin)
+export async function updateRequestStatus(request_id, status) {
+  try {
+    const sql = `
+      UPDATE requests
+      SET request_status = $1
+      WHERE request_id = $2
+      RETURNING *
+    `;
+
+    const result = await db.query(sql, [status, request_id]);
+    return result.rows[0];
+  } catch (error) {
+    console.error("updateRequestStatus error:", error);
+    throw error;
+  }
+}

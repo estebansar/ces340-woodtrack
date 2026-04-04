@@ -11,7 +11,7 @@ import {
   registerAccount
 } from "../controllers/baseController.js";
 import { checkLogin, checkAdmin } from "../middleware/authMiddleware.js";
-import { submitRequest } from "../controllers/requestController.js"
+import { submitRequest, changeRequestStatus } from "../controllers/requestController.js"
 
 
 const router = express.Router();
@@ -26,6 +26,8 @@ router.get("/login", buildLogin);
 router.get("/register", buildRegister);
 router.get("/dashboard", checkLogin, buildDashboard);
 router.get("/admin", checkAdmin, buildAdmin);
+
+router.post("/admin/requests/status", checkAdmin, changeRequestStatus);
 
 router.post("/login", loginAccount);
 router.post("/register", registerAccount);

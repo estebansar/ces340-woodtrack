@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { createUser, getUserByEmail } from "../models/accountModel.js";
-import { getRequestsByUserId } from "../models/requestModel.js";
+import { getRequestsByUserId, getAllRequests } from "../models/requestModel.js";
 
 
 export function buildHome(req, res) {
@@ -71,11 +71,19 @@ export async function loginAccount(req, res) {
   }
 }
 
-export function buildAdmin(req, res) {
-  res.render("admin", {
-    title: "Admin Dashboard",
-    user: req.session.user,
-  });
+export async function buildAdmin(req, res) {
+  try {
+    const requests = await getAllRequests();
+
+    res.render("admin", {
+      title: "Admin Dashboard",
+      user: req.session.user,
+      requests,
+    });
+  } catch (error) {
+    console.error("Admin dashboard error:", error.message);
+    res.status(500).send("Sorry, admin dashboard failed to load.");
+  }
 }
 
 /* Form action: register */
