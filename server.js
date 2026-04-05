@@ -26,6 +26,12 @@ app.use(
   })
 );
 
+/* Make session user available in all views */
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
+
 /* Test DB connection */
 (async () => {
   try {

@@ -44,3 +44,37 @@ export async function updateUserAccount(id, name, email) {
   const result = await db.query(sql, [name, email, id]);
   return result.rows[0];
 }
+
+export async function getAllUsers() {
+  const sql = `
+    SELECT id, name, email, role, created_at
+    FROM users
+    ORDER BY created_at DESC
+  `;
+
+  const result = await db.query(sql);
+  return result.rows;
+}
+
+export async function adminUpdateUser(id, name, email, role) {
+  const sql = `
+    UPDATE users
+    SET name = $1, email = $2, role = $3
+    WHERE id = $4
+    RETURNING id, name, email, role, created_at
+  `;
+
+  const result = await db.query(sql, [name, email, role, id]);
+  return result.rows[0];
+}
+
+export async function deleteUserById(id) {
+  const sql = `
+    DELETE FROM users
+    WHERE id = $1
+    RETURNING id, name, email, role
+  `;
+
+  const result = await db.query(sql, [id]);
+  return result.rows[0];
+}

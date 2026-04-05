@@ -1,9 +1,14 @@
 import bcrypt from "bcrypt";
-import { createUser,
+import {
+  createUser,
   getUserByEmail,
   getUserById,
-  updateUserAccount
+  updateUserAccount,
+  getAllUsers,
+  adminUpdateUser,
+  deleteUserById
  } from "../models/accountModel.js";
+
 import { getRequestsByUserId, getAllRequests } from "../models/requestModel.js";
 
 
@@ -150,5 +155,62 @@ export async function updateAccount(req, res) {
   } catch (error) {
     console.error("Update account error:", error.message);
     res.status(500).send("Sorry, account update failed.");
+  }
+}
+
+export async function buildUsers(req, res) {
+  try {
+    const users = await getAllUsers();
+
+    res.render("admin-users", {
+      title: "Manage Users",
+      user: req.session.user,
+      users,
+    });
+  } catch (error) {
+    console.error("Users page error:", error.message);
+    res.status(500).send("Sorry, users page failed to load.");
+  }
+}
+
+export async function buildEditUser(req, res) {
+  try {
+    const userId = req.params.id;
+    const account = await getUserById(userId);
+
+    res.render("edit-user", {
+      title: "Edit User",
+      user: req.session.user,
+      account,
+    });
+  } catch (error) {
+    console.error("Edit user page error:", error.message);
+    res.status(500).send("Sorry, edit user failed.");
+  }
+}
+
+export async function adminUpdateUserAccount(req, res) {
+  try {
+    const { id, name, email, role } = req.body;
+
+    await adminUpdateUser(id, name, email, role);
+
+    res.redirect("/admin/users");
+  } catch (error) {
+    console.error("Admin update user error:", error.message);
+    res.status(500).send("Sorry, user update failed.");
+  }
+}
+
+export async function deleteUserAccount(req, res) {
+  try {
+    const { id } = req.body;
+
+    await deleteUserById(id);
+
+    res.redirect("/admin/users");
+  } catch (error) {
+    console.error("Delete user error:", error.message);
+    res.status(500).send("Sorry, user delete failed.");
   }
 }

@@ -1,0 +1,33 @@
+<%- include("partials/header", { title: "Manage Users" }) %>
+
+<section class="hero">
+  <h1>Manage Users</h1>
+
+  <p>Admin can view and manage all user accounts here.</p>
+
+  <% if (!users || users.length === 0) { %>
+    <p>No users found.</p>
+  <% } else { %>
+    <% users.forEach(account => { %>
+      <div class="request-card">
+        <h3><%= account.name %></h3>
+        <p><strong>Email:</strong> <%= account.email %></p>
+        <p><strong>Role:</strong> <%= account.role %></p>
+        <p><strong>Created:</strong> <%= account.created_at %></p>
+
+        <p>
+          <a href="/admin/users/edit/<%= account.id %>">Edit User</a>
+        </p>
+
+        <% if (user.id !== account.id) { %>
+          <form action="/admin/users/delete" method="post">
+            <input type="hidden" name="id" value="<%= account.id %>">
+            <button type="submit">Delete User</button>
+          </form>
+        <% } %>
+      </div>
+    <% }) %>
+  <% } %>
+</section>
+
+<%- include("partials/footer") %>

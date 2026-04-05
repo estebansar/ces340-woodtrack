@@ -1,0 +1,40 @@
+<%- include("partials/header", { title: "Edit User" }) %>
+
+<section class="hero">
+  <h1>Edit User</h1>
+
+  <p>Admin can update this user's account information.</p>
+
+  <form action="/admin/users/edit" method="post">
+    <input type="hidden" name="id" value="<%= account.id %>">
+
+    <label for="name">Name</label>
+    <input
+      type="text"
+      id="name"
+      name="name"
+      value="<%= account.name %>"
+      required
+    >
+
+    <label for="email">Email</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      value="<%= account.email %>"
+      required
+    >
+
+    <label for="role">Role</label>
+    <select id="role" name="role" required>
+      <option value="client" <%= account.role === "client" ? "selected" : "" %>>client</option>
+      <option value="builder" <%= account.role === "builder" ? "selected" : "" %>>builder</option>
+      <option value="admin" <%= account.role === "admin" ? "selected" : "" %>>admin</option>
+    </select>
+
+    <button type="submit">Save User Changes</button>
+  </form>
+</section>
+
+<%- include("partials/footer") %>
