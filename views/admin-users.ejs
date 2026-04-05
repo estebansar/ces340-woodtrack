@@ -9,14 +9,15 @@
     <p>No users found.</p>
   <% } else { %>
     <% users.forEach(account => { %>
-      <div class="request-card">
+      <div class="card">
         <h3><%= account.name %></h3>
+
         <p><strong>Email:</strong> <%= account.email %></p>
         <p><strong>Role:</strong> <%= account.role %></p>
-        <p><strong>Created:</strong> <%= account.created_at %></p>
+        <p><strong>Created:</strong> <%= new Date(account.created_at).toLocaleString() %></p>
 
         <p>
-          <a href="/admin/users/edit/<%= account.id %>">Edit User</a>
+          <a class="action-link" href="/admin/users/edit/<%= account.id %>">Edit User</a>
         </p>
 
         <% if (user.id !== account.id) { %>
@@ -24,6 +25,8 @@
             <input type="hidden" name="id" value="<%= account.id %>">
             <button type="submit">Delete User</button>
           </form>
+        <% } else { %>
+          <p><em>You cannot delete your own admin account here.</em></p>
         <% } %>
       </div>
     <% }) %>

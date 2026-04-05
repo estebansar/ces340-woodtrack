@@ -3,40 +3,52 @@
 <section class="hero">
   <h1>Admin Dashboard</h1>
 
-  <p>Welcome, <%= user.name %>.</p>
-  <p>Your role: <%= user.role %></p>
+  <div class="card">
+    <h3>Admin Info</h3>
+    <p><strong>Name:</strong> <%= user.name %></p>
+    <p><strong>Role:</strong> <%= user.role %></p>
+    <p>This page is restricted to admin users only.</p>
+  </div>
 
-  <p>This page is restricted to admin users only.</p>
+  <h2 class="section-title">All Submitted Requests</h2>
 
-<h2>All Submitted Requests</h2>
+  <% if (requests.length === 0) { %>
+    <p>No requests found.</p>
+  <% } %>
 
-<% if (!requests || requests.length === 0) { %>
-  <p>No requests have been submitted yet.</p>
-<% } else { %>
   <% requests.forEach(request => { %>
-<div class="request-card">
-  <h3><%= request.request_title %></h3>
-  <p><strong>Submitted by:</strong> <%= request.user_name %> (<%= request.user_email %>)</p>
-  <p><strong>Description:</strong> <%= request.request_description %></p>
+    <div class="card">
 
-  <form action="/admin/requests/status" method="post">
-    <input type="hidden" name="request_id" value="<%= request.request_id %>">
+      <h3><%= request.request_title %></h3>
 
-    <label for="status-<%= request.request_id %>"><strong>Status:</strong></label>
-    <select name="request_status" id="status-<%= request.request_id %>">
-      <option value="submitted" <%= request.request_status === "submitted" ? "selected" : "" %>>submitted</option>
-      <option value="in progress" <%= request.request_status === "in progress" ? "selected" : "" %>>in progress</option>
-      <option value="completed" <%= request.request_status === "completed" ? "selected" : "" %>>completed</option>
-    </select>
+      <p>
+        <strong>Submitted by:</strong>
+        <%= request.user_name %> (<%= request.user_email %>)
+      </p>
 
-    <button type="submit">Update Status</button>
-  </form>
+      <p>
+        <strong>Description:</strong>
+        <%= request.request_description %>
+      </p>
 
-  <p><strong>Submitted:</strong> <%= request.created_at %></p>
-</div>
+      <form action="/admin/requests/<%= request.request_id %>/status" method="post">
+        <label for="status-<%= request.request_id %>">Status</label>
+        <select id="status-<%= request.request_id %>" name="status">
+          <option value="submitted" <%= request.request_status === "submitted" ? "selected" : "" %>>submitted</option>
+          <option value="in progress" <%= request.request_status === "in progress" ? "selected" : "" %>>in progress</option>
+          <option value="completed" <%= request.request_status === "completed" ? "selected" : "" %>>completed</option>
+        </select>
+
+        <button type="submit">Update Status</button>
+      </form>
+
+      <p>
+        <strong>Submitted:</strong>
+        <%= new Date(request.created_at).toLocaleString() %>
+      </p>
+
+    </div>
   <% }) %>
-<% } %>
-
 </section>
 
 <%- include("partials/footer") %>

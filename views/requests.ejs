@@ -4,26 +4,27 @@
   <h1>Submit a Custom Build Request</h1>
 
   <form action="/requests" method="post">
-    
-    <!-- TITLE -->
-    <label for="title">Project Title</label>
-    <input 
-      type="text" 
-      id="title" 
-      name="title" 
-      required
-    >
 
-    <!-- DESCRIPTION -->
-    <label for="description">Project Description</label>
-    <textarea 
-      id="description" 
-      name="description" 
-      rows="5" 
-      required
-    ></textarea>
+    <div>
+      <label for="title">Project Title</label>
+      <input 
+        type="text" 
+        id="title" 
+        name="title" 
+        required
+      >
+    </div>
 
-    <!-- SUBMIT BUTTON -->
+    <div>
+      <label for="description">Project Description</label>
+      <textarea 
+        id="description" 
+        name="description" 
+        rows="5" 
+        required
+      ></textarea>
+    </div>
+
     <button type="submit">Submit Request</button>
 
   </form>

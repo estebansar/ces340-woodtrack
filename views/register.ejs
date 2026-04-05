@@ -4,7 +4,7 @@
   <h1>Create Account</h1>
 
   <% if (errorMessage) { %>
-    <p><strong><%= errorMessage %></strong></p>
+    <p class="form-error"><%= errorMessage %></p>
   <% } %>
 
   <form action="/register" method="post">
