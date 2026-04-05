@@ -29,7 +29,11 @@ export function buildLogin(req, res) {
 }
 
 export function buildRegister(req, res) {
-  res.render("register", { title: "Register" });
+  res.render("register", {
+    title: "Register",
+    errorMessage: null,
+    formData: null
+  });
 }
 
 export async function buildDashboard(req, res) {
@@ -98,14 +102,31 @@ export async function buildAdmin(req, res) {
 /* Form action: register */
 export async function registerAccount(req, res) {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, confirmPassword } = req.body;
+
+    if (password !== confirmPassword) {
+      return res.status(400).render("register", {
+        title: "Register",
+        errorMessage: "Passwords do not match.",
+        formData: { name, email }
+      });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await createUser(name, email, hashedPassword);
 
-    res.send(`Account created for ${newUser.name} with role ${newUser.email}`);
+    res.redirect("/login");
   } catch (error) {
     console.error("Register error:", error.message);
-    res.status(500).send("Sorry, registration failed.");
+
+    res.status(500).render("register", {
+      title: "Register",
+      errorMessage: "Sorry, registration failed.",
+      formData: {
+        name: req.body.name || "",
+        email: req.body.email || ""
+      }
+    });
   }
 }
 
