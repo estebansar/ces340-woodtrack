@@ -5,7 +5,7 @@ async function makeAdmin() {
   try {
     const result = await db.query(
       "UPDATE users SET role = 'admin' WHERE email = $1 RETURNING *",
-      ["test2@test.com"] // your user
+      ["admin@test.com"] // your user
     );
 
     console.log("Updated user:", result.rows[0]);
