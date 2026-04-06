@@ -58,7 +58,7 @@ Use these accounts to test the application:
 
     Admin
     - Email: admin@test.com
-    - Password: P@$$w0rd
+    - Password: P@$$w0rd!
 
     User
     - Email: user@test.com
