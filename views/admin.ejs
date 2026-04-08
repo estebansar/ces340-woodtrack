@@ -31,7 +31,9 @@
         <%= request.request_description %>
       </p>
 
-      <form action="/admin/requests/<%= request.request_id %>/status" method="post">
+      <form action="/admin/requests/status" method="post">
+        <input type="hidden" name="request_id" value="<%= request.request_id %>">
+
         <label for="status-<%= request.request_id %>">Status</label>
         <select id="status-<%= request.request_id %>" name="status">
           <option value="submitted" <%= request.request_status === "submitted" ? "selected" : "" %>>submitted</option>
