@@ -27,9 +27,9 @@ export async function submitRequest(req, res) {
 
 export async function changeRequestStatus(req, res) {
   try {
-    const { request_id, request_status } = req.body;
+    const { request_id, status } = req.body;
 
-    await updateRequestStatus(request_id, request_status);
+    await updateRequestStatus(request_id, status);
 
     res.redirect("/admin");
   } catch (error) {
